@@ -1,0 +1,35 @@
+# Gateway 配置模板 - 多平台接入
+# 部署到新实例后根据实际平台调整
+
+gateway:
+  # 默认平台
+  default_platform: "weixin"
+
+  # 微信/Weixin 配置
+  weixin:
+    enabled: false
+    # 从原实例导出 gateway 配置后填入
+    # 包含: app_id, token, encoding_aes_key 等
+    config_path: "~/.hermes/gateway/weixin.yaml"
+
+  # 飞书/Feishu 配置
+  feishu:
+    enabled: false
+    app_id: ""           # 与 env.feishu.app_id 一致
+    app_secret: ""       # 与 env.feishu.app_secret 一致
+    verification_token: ""
+    encrypt_key: ""
+
+  # CLI 本地终端（默认可用）
+  local:
+    enabled: true
+
+# 权限配置
+permissions:
+  # 超级管理员列表（至少1个）
+  super_admins:
+    - "{{WECHAT_USER_ID}}"
+  # 白名单模式
+  whitelist_mode: true
+  # 默认拒绝未知用户
+  default_deny: true

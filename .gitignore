@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*.tar.gz
+.env
+kaka-deploy-*/
+.venv/
+templates/

@@ -1,0 +1,189 @@
+{
+  "version": "1.0.0",
+  "description": "kaka-deploy 技能清单+联动组定义",
+  "placeholders": {
+    "{{SERVER_IP}}": "服务器IP地址",
+    "{{INSTANCE_NAME}}": "实例名称",
+    "{{MASTER_NAME}}": "主人名称",
+    "{{AGENT_NAME}}": "机器人名称",
+    "{{CREATOR_NAME}}": "创造者名称",
+    "{{WECHAT_USER_ID}}": "微信用户ID",
+    "{{FEISHU_USER_ID}}": "飞书用户ID",
+    "{{FEISHU_OPEN_ID}}": "飞书open_id",
+    "{{FEISHU_DOMAIN}}": "飞书域名前缀",
+    "{{FEISHU_BASE_TOKEN}}": "飞书多维表Token",
+    "{{FEISHU_TABLE_ID}}": "飞书多维表ID",
+    "{{FEISHU_KB_TOKEN}}": "飞书知识库Token",
+    "{{FEISHU_KB_TABLE_ID}}": "飞书知识库表ID",
+    "{{CLOUDFLARE_ACCOUNT_ID}}": "Cloudflare账号ID",
+    "{{GITHUB_USERNAME}}": "GitHub用户名",
+    "{{AGENT_TMP_DIR}}": "临时文件目录"
+  },
+  "exclude_skills": [
+    "devops/hermes-server-migration"
+  ],
+  "exclude_paths": [
+    "reports/",
+    "logs/",
+    "skillopt_runs/",
+    "permission-management/config/permissions.yaml"
+  ],
+  "clean_sections": [
+    {
+      "skill": "kaka-soul/holographic-memory-plugin",
+      "pattern": "## Cross-Instance Code Sync.*?(?=\\n## |\\Z)",
+      "flags": "DOTALL"
+    },
+    {
+      "skill": "kaka-soul/kaka-gateway-admin",
+      "pattern": "### 为其他实例.*?(?=\\n### |\\n## |\\Z)",
+      "flags": "DOTALL"
+    },
+    {
+      "skill": "devops/website-operations",
+      "pattern": "kaka 和 lili.*?同步",
+      "flags": ""
+    }
+  ],
+  "skills": {
+    "hermes_skills": [
+      "autonomous-ai-agents/hermes-agent",
+      "autonomous-ai-agents/hermes-community-skill-installation",
+      "autonomous-ai-agents/hermes-session-context-debugging",
+      "awesome-hermes-agent-ecosystem/awesome-hermes-agent-ecosystem",
+      "hermes-webui-agent/hermes-webui-agent",
+      "devops/permission-management",
+      "devops/server-health-monitoring",
+      "devops/proxy-server-configuration",
+      "devops/systemd-service-troubleshooting",
+      "devops/cloudflare-pages-deployment",
+      "devops/website-operations",
+      "devops/safe-stale-file-cleanup",
+      "devops/network-connectivity-troubleshooting",
+      "devops/minimax-hermes-fallback",
+      "feishu-doc-automation/feishu-doc-automation",
+      "feishu/feishu-doc-auto-archiving",
+      "integration/feishu-app-connection",
+      "content/skill-catalog-document",
+      "software-development/skill-creation-workflow",
+      "software-development/hermes-agent-skill-authoring",
+      "software-development/subagent-driven-development",
+      "software-development/writing-plans",
+      "software-development/test-driven-development",
+      "software-development/systematic-debugging",
+      "software-development/requesting-code-review",
+      "software-development/debugging-hermes-tui-commands",
+      "software-development/plan",
+      "superpowers/superpowers",
+      "product-brainstorming/product-brainstorming",
+      "hermes-agent-self-evolution/hermes-agent-self-evolution",
+      "kaka-soul/holographic-memory-plugin",
+      "kaka-soul/memory-config-audit",
+      "kaka-soul/task-state-persistence",
+      "kaka-soul/problem-diagnosis",
+      "kaka-soul/kaka-gateway-admin",
+      "github/github-auth",
+      "github/github-repo-management",
+      "github/github-pr-workflow",
+      "github/github-code-review",
+      "github/github-issues",
+      "frontend-design/frontend-design",
+      "ui-ux-pro-max/ui-ux-pro-max",
+      "media/minimax-tts-generation",
+      "media/minimax-image-generation",
+      "media/anime-media",
+      "web-access/minimax-web-search",
+      "content/xiaohongshu-copywriter",
+      "education/tutorial-generator",
+      "business/enterprise-intelligence",
+      "knowledge-management/feishu-knowledge-base-manager",
+      "knowledge-management/ai-role-system",
+      "productivity/personal-work-portfolio",
+      "productivity/test-data-generator",
+      "mcp/native-mcp",
+      "volc-engine/volc-ark-cli",
+      "automation/human-assisted-browser-login",
+      "integration/wechat-pc-robot-deployment"
+    ],
+    "lark_skills": [
+      "lark-base",
+      "lark-doc",
+      "lark-drive",
+      "lark-markdown",
+      "lark-im",
+      "lark-contact",
+      "lark-calendar",
+      "lark-mail",
+      "lark-task",
+      "lark-sheets",
+      "lark-slides",
+      "lark-wiki",
+      "lark-approval",
+      "lark-attendance",
+      "lark-vc",
+      "lark-vc-agent",
+      "lark-minutes",
+      "lark-note",
+      "lark-okr",
+      "lark-whiteboard",
+      "lark-event",
+      "lark-shared",
+      "lark-skill-maker",
+      "lark-apps",
+      "lark-workflow-meeting-summary",
+      "lark-workflow-standup-report",
+      "lark-openapi-explorer"
+    ]
+  },
+  "linkage_groups": [
+    {
+      "id": "feishu",
+      "name": "飞书自动化",
+      "skills": ["lark-*", "feishu-doc-automation", "feishu-doc-auto-archiving", "feishu-knowledge-base-manager", "lark-skill-maker", "feishu-app-connection"],
+      "required_config": ["{{FEISHU_DOMAIN}}", "{{FEISHU_BASE_TOKEN}}", "{{FEISHU_TABLE_ID}}"],
+      "trigger": "用户提到飞书操作"
+    },
+    {
+      "id": "skill-creation",
+      "name": "技能创建流程",
+      "skills": ["skill-creation-workflow", "product-brainstorming", "hermes-agent-skill-authoring", "skillopt"],
+      "required_config": [],
+      "trigger": "用户要求创建技能"
+    },
+    {
+      "id": "web-deploy",
+      "name": "网站部署",
+      "skills": ["cloudflare-pages-deployment", "website-operations", "frontend-design", "ui-ux-pro-max"],
+      "required_config": ["{{CLOUDFLARE_ACCOUNT_ID}}", "{{GITHUB_USERNAME}}"],
+      "trigger": "用户要求部署网站"
+    },
+    {
+      "id": "self-evolution",
+      "name": "自我进化/记忆",
+      "skills": ["hermes-agent-self-evolution", "holographic-memory-plugin", "memory-config-audit", "problem-diagnosis", "task-state-persistence"],
+      "required_config": [],
+      "trigger": "自动运行"
+    },
+    {
+      "id": "github",
+      "name": "GitHub开发",
+      "skills": ["github-auth", "github-repo-management", "github-pr-workflow", "github-code-review", "github-issues"],
+      "required_config": ["{{GITHUB_USERNAME}}"],
+      "trigger": "用户提到Git操作"
+    },
+    {
+      "id": "minimax-media",
+      "name": "MiniMax媒体",
+      "skills": ["minimax-tts-generation", "minimax-image-generation", "minimax-web-search", "minimax-hermes-fallback"],
+      "required_config": [],
+      "trigger": "用户要求TTS/图片/搜索"
+    },
+    {
+      "id": "permission-gateway",
+      "name": "权限/网关",
+      "skills": ["permission-management", "kaka-gateway-admin"],
+      "required_config": ["{{WECHAT_USER_ID}}", "{{FEISHU_USER_ID}}", "{{FEISHU_OPEN_ID}}"],
+      "trigger": "部署完成后首次配置"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+super_admins:
+- {{WECHAT_USER_ID}}@im.wechat
+- {{FEISHU_OPEN_ID}}
+- {{FEISHU_OPEN_ID}}
+global_protection_enabled: true
+default_user_permissions:
+  allowed_skills:
+  - '*query*'
+  - search*
+  - minimax-web-search
+  blocked_tools:
+  - terminal
+  - write_file
+  - execute_code
+  - patch
+  - delete
+  allowed_tools: []
+user_permissions: {}
+skill_required_tools: {}
+blocked_operations:
+- rm -rf /*
+- dd if=/dev/zero
+- mkfs.ext4 /dev/
+- ':(){ :|:& };:'
+audit_log_enabled: true
