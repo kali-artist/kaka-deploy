@@ -150,14 +150,32 @@ def pack_skill(src_dir, dst_dir, skill_name, manifest):
     return packed_files
 
 
+def discover_hermes_skills(skills_dir, exclude):
+    """自动扫描 ~/.hermes/skills/ 下所有含 SKILL.md 的技能"""
+    discovered = []
+    for root, dirs, files in os.walk(skills_dir):
+        if 'SKILL.md' in files:
+            rel = os.path.relpath(root, skills_dir)
+            if rel == '.':
+                continue
+            # 跳过 .hub 等隐藏目录
+            if rel.startswith('.'):
+                continue
+            if rel in exclude:
+                continue
+            discovered.append(rel)
+    return sorted(discovered)
+
+
 def pack_hermes_skills(manifest):
-    """打包 Hermes 技能"""
-    skills = manifest["skills"]["hermes_skills"]
+    """打包 Hermes 技能 - 自动扫描全量"""
     exclude = set(manifest.get("exclude_skills", []))
     output = os.path.join(OUTPUT_DIR, "hermes")
     total = 0
     
-    print(f"\n📦 打包 Hermes 技能 ({len(skills)} 个)...")
+    skills = discover_hermes_skills(HERMES_SKILLS_DIR, exclude)
+    
+    print(f"\n📦 打包 Hermes 技能 ({len(skills)} 个, 自动扫描)...")
     for skill_path in skills:
         if skill_path in exclude:
             print(f"  ❌ EXCLUDED: {skill_path}")
@@ -175,13 +193,28 @@ def pack_hermes_skills(manifest):
     return total
 
 
+def discover_lark_skills(lark_dir, exclude):
+    """自动扫描 ~/.agents/skills/ 下所有含 SKILL.md 的技能"""
+    if not os.path.exists(lark_dir):
+        return []
+    discovered = []
+    for item in os.listdir(lark_dir):
+        item_path = os.path.join(lark_dir, item)
+        if os.path.isdir(item_path) and os.path.exists(os.path.join(item_path, 'SKILL.md')):
+            if item not in exclude:
+                discovered.append(item)
+    return sorted(discovered)
+
+
 def pack_lark_skills(manifest):
-    """打包 lark-cli 技能"""
-    skills = manifest["skills"]["lark_skills"]
+    """打包 lark-cli 技能 - 自动扫描全量"""
+    exclude = set(manifest.get("exclude_skills", []))
     output = os.path.join(OUTPUT_DIR, "lark")
     total = 0
     
-    print(f"\n📦 打包 lark-cli 技能 ({len(skills)} 个)...")
+    skills = discover_lark_skills(LARK_SKILLS_DIR, exclude)
+    
+    print(f"\n📦 打包 lark-cli 技能 ({len(skills)} 个, 自动扫描)...")
     for skill_name in skills:
         src = os.path.join(LARK_SKILLS_DIR, skill_name)
         dst = os.path.join(output, skill_name)
